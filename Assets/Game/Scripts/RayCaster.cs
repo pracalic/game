@@ -8,6 +8,8 @@ namespace wolfik
     public class RayCaster : MonoBehaviour
     {
         Camera cam;
+        [SerializeField]
+        PlayerMove pm;
         // Start is called before the first frame update
         void Start()
         {
@@ -29,7 +31,9 @@ namespace wolfik
                         //PhotonNetwork.Destroy(hit.collider.gameObject);
                         //hit.collider.gameObject.SetActive(false);
                         //hit.collider.enabled = false;
-                        hit.collider.GetComponent<CubeObserver>().SetVisible();
+                        //hit.collider.GetComponent<CubeObserver>().SetVisible();
+
+                        pm.SendMessageRay(hit.collider.transform.parent.GetComponent<PhotonView>().ViewID);
                         
                     }
             }

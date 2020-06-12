@@ -14,15 +14,32 @@ namespace wolfik
         PosibleToGoPlaces places;
         int currentPos;
         int[] table;
+        PhotonView photonView;
+       
         // Start is called before the first frame update
         void Start()
         {
             timer = Time.time;
+            photonView = PhotonView.Get(this);
             places = GameManager.instance.GetPosiblePlacesList();
             currentPos = places.GetCurrentListPosition(transform.position);
             table = places.MoveCheck(currentPos);
         }
 
+        public void SendMessageRay(int id)
+        {
+            Debug.Log("sle");
+            photonView.RPC("RayMessag", RpcTarget.MasterClient, id);
+        }
+
+
+        [PunRPC]
+        void RayMessag(int numb)
+        {
+            Debug.Log("odbieram");
+            //Debug.Log(numb);
+            CubeObserver.FindAndHide(numb);
+        }
 
         #region IPunObservable implementation
 
